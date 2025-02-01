@@ -97,40 +97,44 @@ def embedding_operator(n):
     if np.allclose(p, F.T @ (F @ (p - np.ones(n)/n)) + np.ones(n)/n):
         return F
 
-def viz(P, m=3000, A=None, title="3in3", embed=False):
+def viz_state_space(P, m=3000, A=None, title="3in3", embed=False, pts=None):
     P_data = extract_P_data(P)
     n, alpha, r = P_data["n"], P_data["alpha"], P_data["r"]
+    valid, ratio = valid_probabilities(m, P, A=A) if type(pts) == type(None) else (pts, None)
+
+    if type(pts) == type(None):
+        plot_title = "%s | alpha=%.3f | r=%d | %.3f%%" % (title, alpha, r, 100*ratio)
+        filename = "%s_a%.3f_r%d_v%.3f.png" % (title, alpha, r, 100*ratio)
+    else:
+        plot_title = "%s | alpha=%.3f | r=%d" % (title, alpha, r)
+        filename = "%s_a%.3f_r%d.png" % (title, alpha, r)
+        m = len(pts) 
 
     if not embed:
-        simplex = np.eye(n)
-        valid, ratio = valid_probabilities(m, P, A=A)
-
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot() if n == 2 else fig.add_subplot(projection="3d")
-        ax.set_title("%s | alpha=%.3f | r=%d | %.3f%%" % (title, alpha, r, 100*ratio))
+        ax.set_title(plot_title)
         ax.azim = 25
-        ax.scatter(*simplex, c="r")
+        ax.scatter(*np.eye(n), c="r")
         ax.scatter(*P, c="g", marker="x", s=500)
         ax.scatter(*valid.T, alpha=0.04)
     else:
         F = embedding_operator(n)
         tiny_simplex = (F @ (np.eye(n) - np.ones((n,n))/n)).T
         tiny_P = (F @ (P - np.ones((n,n))/n)).T
-        valid, ratio = valid_probabilities(m, P, A=A)
         tiny_valid = (F @ (valid.T - np.ones((n, m))/n)).T
         hull = ConvexHull(tiny_valid)
         hull_pts = tiny_valid[hull.vertices]
 
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot() if n == 3 else fig.add_subplot(projection="3d")
-        ax.set_title("%s | alpha=%.3f | r=%d | %.3f%%" % (title, alpha, r, 100*ratio))
+        ax.set_title(plot_title)      
         ax.azim = 25
         ax.scatter(*tiny_simplex.T, c="r")
         ax.scatter(*tiny_P.T, c="g", marker="x", s=750)
         ax.scatter(*tiny_valid.T, alpha=0.04)
         ax.scatter(*hull_pts.T, alpha=0.3, c="y")
-
-    plt.savefig("%s_a%.3f_r%d_v%.3f.png" % (title, alpha, r, 100*ratio))
+    plt.savefig(filename)
     plt.show()
 
 ##################################################################################################
