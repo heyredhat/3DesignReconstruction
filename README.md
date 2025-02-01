@@ -16,7 +16,7 @@ Then install our libraries:
 
 `pip install numpy scipy jax matplotlib jupyter ipympl`
 
-We'll use `numpy` for linear algebra, `scipy` for optimization and more, `jax` for just-in-time compiling and taking derivatives of functions in order to optimize efficiently, `matplotlib` to visualize things, `jupyter` so we can use notebooks such as this one, and finally `ipympl` so we can have interactive matplotlib widgets in notebooks.
+We'll use `numpy` for linear algebra, `scipy` for optimization and more, `jax` for just-in-time compiling and taking derivatives of functions in order to optimize efficiently, `matplotlib` to visualize things, `jupyter` so we can use notebooks, and finally `ipympl` so we can have interactive matplotlib widgets in notebooks.
 
 Finally, to open up a jupyter notebook, navigate to the directory which contains the notebook and run
 
