@@ -13,6 +13,7 @@ from jax import config
 config.update("jax_enable_x64", True)
 
 import matplotlib.pyplot as plt
+from itertools import permutations
 
 ##################################################################################################
 
@@ -54,6 +55,14 @@ def check_P(P):
              "unbiased": np.allclose(np.diag(P), np.ones(n)/gamma),\
              "depolarizing": np.allclose(P @ Phi @ P, P)}
     return tests 
+
+def rand_symmetric_tensor(n, n_indices):
+    A = np.zeros([n]*n_indices)
+    R = np.random.randn(*[n]*n_indices)
+    perms = list(permutations(list(range(n_indices))))
+    for perm in perms:
+        A += np.transpose(R, perm)
+    return A/len(perms)
 
 def C_constructor(P, A=None):
     P_data = extract_P_data(P)
@@ -107,7 +116,7 @@ def viz(P, m=3000, A=None, title="3in3", embed=False):
         F = embedding_operator(n)
         tiny_simplex = (F @ (np.eye(n) - np.ones((n,n))/n)).T
         tiny_P = (F @ (P - np.ones((n,n))/n)).T
-        valid, ratio = valid_probabilities(m, P)
+        valid, ratio = valid_probabilities(m, P, A=A)
         tiny_valid = (F @ (valid.T - np.ones((n, m))/n)).T
         hull = ConvexHull(tiny_valid)
         hull_pts = tiny_valid[hull.vertices]

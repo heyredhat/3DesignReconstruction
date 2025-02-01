@@ -1,0 +1,18 @@
+\documentclass[11pt]{article}
+\usepackage{123}
+\title{Computational Observations}
+\author{Matthew B. Weiss}
+
+\begin{document}
+\maketitle
+
+\section{2/1/25}
+\begin{itemize}
+\item It seems that for random choices of $A$, it becomes hard to find any valid vectors. Is this because the state-space gets too small? Does the simple quantum choice lead to the largest possible state spaces, modulo the choice of P?
+\item It's possible (!) that for a given choice of $A$, the state space doesn't even contain the columns of $P$ itself! How can we formalize the restriction on $A$ so that that the state-space contains the reference states themselves? A lot of the time you just get a triangle-like thing $n=3, r=3$ but maybe off-set.
+\item I mean, actually: can you get any convex body, let's say, up to a certain resolution, by an appropriate choice of $A$ and $P$?
+\item Say, for $n=3, r=3$, as $\alpha$ approach 1, you recover the simplex. As $\alpha$ increases, the state space gets smaller, and also becomes more rounded, guitar-pick like. Reuleaux triangle? These state-spaces all seem self-dual. In the full-rank case, $P$ must be equiangular. In any case, it looks just like a qplex!
+\item Why can't we have a $P$ satisfying $n=3, r=2$?
+\end{itemize}
+
+\end{document}
