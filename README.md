@@ -23,3 +23,5 @@ Finally, to open up a jupyter notebook, navigate to the directory which contains
 `jupyter notebook`
 
 We collect useful methods in `vibes.py`. Add `from vibes import *` to your python file, and make sure `vibes.py` is in the working directory.
+
+If you make an interesting observations, add them to `ComputationalObservations.tex`!
