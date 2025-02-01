@@ -1,3 +1,5 @@
+*V*ar*i*ance-*B*ound*e*d *S*tate-*s*paces: VIBES
+
 If you're not familiar with `python`, I'd start by downloading and installing `anaconda` from https://www.anaconda.com/. Then open up the terminal and create a new `conda` environment: this will give you a playground to install packages in and make sure everything is nice and easy. To do this, use the command
 
 `conda create --name spring2025`
