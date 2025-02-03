@@ -1,0 +1,348 @@
+\documentclass[11pt]{article}
+\usepackage{123}
+\title{Spring 2025 Research Questions}
+\author{Matthew B. Weiss}
+
+\begin{document}
+\maketitle
+
+\section{}
+The purpose of these notes is to lay out the beginnings of a research program which aims to explore a particular brand of non-classical theories inspired by the QBist representation of quantum mechanics induced by a 3-design measurement. For background, read \url{https://arxiv.org/abs/2412.13505}. The crucial feature of such theories is that the validity of a set of probability assignments $P(E_i|\rho)$ on the outcomes of a privileged reference device is equivalent to the assumption of a lower bound on the variance of a natural class of observables. In other words, the shape of state space is ultimately determined by an uncertainty principle: the variance of any natural observable cannot be made smaller than a certain amount, which morally speaking is a way of respecting the uncreatedness of outcomes before measurement. 
+
+The ultimate goal is to motivate a re-derivation of quantum theory along QBist principles. As one proceeds, however, there are many forks in the road, places where in order to motivate our assumptions, it would be useful to explore the consequences of alternative choices, both analytically and computationally. What follows mingles assumptions, proofs, conjectures, and open questions.
+
+\section{}
+
+There is a measure-and-reprepare reference device $\mathcal{R}$  which is assumed to be informationally complete. Denote by $\{E_i\}$ the outcomes of the measurement, and $\{\sigma_i\}$ the corresponding preparations. The reference device may be characterized in its own terms by a stochastic matrix 
+\begin{align}
+P_{ij}\equiv P(E_i|\sigma_j).	
+\end{align}
+Let us put some initial restrictions on this matrix. We'll take it to be symmetric ($P=P^T$), and hence bistochastic. We also assume $\forall i: P(E_i|\sigma_i)=\text{const}$. 
+ Probabilities for arbitrary measurements may be calculated according to the QBist Born Rule
+\begin{align}
+P(\eta|\rho)=P(\eta|\sigma)\Phi P(E|\rho),	
+\end{align}
+where $P(E|\rho)$ is short-hand for a column vector of probabilities $P(E_i|\rho)$, and $P(\eta|\sigma)$ is short-hand for a row vector of conditional probabilities $P(\eta|\sigma_i)$, $\eta$ being some arbitrary outcome, and $\rho$ being some arbitrary preparation. Here $\Phi$ is a Born matrix, satisfying $P\Phi P=P$. We assume that we may take
+\begin{align}
+\Phi = \alpha I + \beta J,	
+\end{align}
+where $J$ is the matrix of all 1's, and that $Q(E|\rho)=\Phi P(E|\rho)$ is a vector of quasi-probabilities, possibly negative, but summing to 1.
+\begin{enumerate}
+\item Since $\sum_{ij} \Phi_{ij} P(E_j|\rho)=1$, we must have $\alpha +n\beta = 1$ so that $\beta = (1-\alpha)\left(\frac{1}{n}\right)$.
+\item Notice that $P\Phi P	= \alpha P^2+\beta J=P$. Since $JPx=Jx$, it follows that $\alpha Py+\beta Jy=y$ where $y = Px \in \text{col}(P)$, that is, $y$ is some linear combination of the columns of $P$. Denoting $u=(1,\dots, 1)^T$, we have
+\begin{align}
+Py = \frac{1}{\alpha}\left[y-\beta\left(\sum_i y_i\right)u\right].
+\end{align}
+In particular, for probability vectors $P(E|\rho) \in \text{col}(P)$,
+\begin{align}
+\sum_{j}P(E_i|\sigma_j)P(E_j|\rho)&=\frac{1}{\alpha}P(E_i|\rho) +\left(1-\frac{1}{\alpha}\right)\frac{1}{n},
+\end{align}
+which shows that on probability vectors in its column space, $P$ acts as a depolarizing channel with parameter $\frac{1}{\alpha}$, mixing $P(E|\rho)$ with the flat probability vector.
+\item  Since $\alpha P^2+\beta J = P$, using the spectral decomposition $P=\sum_i \lambda_i v_i v_i^T$, we have
+\begin{align}
+\alpha \sum_i \lambda_i^2 v_i v_i^T+\beta u u^T&= \sum_i \lambda_i v_i v_i^T.
+\end{align}
+Since $P$ is bistochastic, $u$ is an eigenvector with eigenvalue 1. Acting on the left $v_k^T$ and on the right with $v_k$, we obtain $\alpha \lambda_k^2 =\lambda_k $, or $\lambda_k(\alpha \lambda_k-1)=0$. We conclude the possible eigenvalues of $P$ are $\{1, \alpha^{-1}, 0\}$. We assumed that $\forall i: P(E_i|\sigma_i)=\text{const}.$ Thus 
+\begin{align}
+\tr(P) = n P(E_i|\sigma_i)=\sum_i\lambda_i=1+(r-1)\alpha^{-1},
+\end{align}
+where $r=\text{rank}(P)$, and so
+\begin{align}
+P(E_i|\sigma_i) &= n^{-1}	\big(1+(r-1)\alpha^{-1}\big).
+\end{align}
+\item  $P\Phi$ projects onto $\text{col}(P)$. From $P\Phi P=P$, we have $P\Phi P \Phi=P\Phi$ so that $P\Phi$ is idempotent and thus a projector. $\Phi = \alpha I + \beta J$ is invertible, and thus $P\Phi$ projects onto $\text{col}(P)$. In fact since $(P\Phi)^T=P\Phi$, it is an orthogonal projection. Consistency with the QBist Born rule requires that
+\begin{align}
+P(E|\rho) =P(E|\sigma)\Phi P(E|\rho),
+\end{align}
+and so we may without loss of generality consider only probability vectors $P(E|\rho) \in \text{col}(P)$.
+\item For an unbiased quantum 3-design, we have $\alpha=d+1, \beta=-\frac{d}{n}$, and the rank $r$ of $P$ is $d^2$.
+\end{enumerate}
+
+\section{}
+ Let $x$ be an observable, which here means an assignment of numerical values to the outcomes of the reference measurement. We assume that a probability vector $P(E|\rho)$ is valid if and only if the second moment of any observable $x\in \text{col}(P)$ is lower bounded. Further, we assume that like the second moment itself, the lower bound is linear in $P(E|\rho)$ and quadratic in $x$. In other words,
+\begin{align}
+P(E|\rho) \text{ valid}	\Longleftrightarrow \forall x\in \text{col}(P): \sum_i x_i^2P(E_i|\rho)\ge \sum_{ijk} A_{ijk}x_ix_jP(E_k|\rho)
+\end{align}
+for some three-index tensor $A_{ijk}$.
+\begin{enumerate}
+\item Rewriting the lower bound, we have 
+\begin{align}
+\sum_{ij}x_i\Bigg[\sum_k \Big(\delta_{ij}\delta_{ik}-A_{ijk}\Big)P(E_k|\rho)\Bigg]x_j&\ge0	\Longleftrightarrow \sum_{ij}x_iB[\rho]_{ij}x_j\ge0.
+\end{align}
+Since $B[\rho]\ge0$ on $\text{col}(P)$ and $P\Phi=(P\Phi)^T=\Phi P$ projects into $\text{col}(P)$, we have $C[\rho]=P\Phi B[\rho]P\Phi\ge0$. If we assume $A_{ijk}$ is symmetric in the first two indices, then $C[\rho]=C[\rho]^T$, and  the question of the validity of $P(E|\rho)$ is transformed into the question of the positive-semidefiniteness of $C[\rho]$.
+ \item What assumptions can we marshal to narrow down the reasonable choices of $A_{ijk}$, what natural symmetries might we impose? On the other hand, suppose we fix some $A_{ijk}$. What is the best way, analytically and computationally, of charting out the state-space, the set of valid probability vectors? In particular, 
+ \begin{enumerate}
+ \item Under what conditions is the state-space self-dual? Must any such state-space be self-dual? In other words, suppose we have a valid probability vector $P(E|\rho)$. Bayes' Rule tells us that 
+\begin{align}
+P(\rho|\sigma_i) &= P(\rho|E_i)= 	\frac{P(E_i|\rho)P(\rho)}{P(E_i)}=\gamma P(E_i|\rho).
+\end{align}
+
+ Self-duality would mean that given some valid $P(E|\rho)$,
+ \begin{align}
+\forall \tau: P(\rho|\tau)=P(\rho|\sigma)\Phi P(E|\tau)=\gamma P(E|\rho)	\Phi P(E|\tau)\ge0.
+ \end{align}
+Conversely, if we have a valid response function $P(\tau|\sigma)$, i.e. such that $\forall \rho: P(\tau|\rho)=P(\tau|\sigma)\Phi P(E|\rho)\ge0$, then 
+\begin{align}
+	\forall \eta:P(\eta|\tau)=P(\eta|\sigma)\Phi P(E|\tau)=\gamma^{-1}P(\eta|\sigma)\Phi P(\tau|\sigma)\ge0.
+\end{align}
+Note that in particular, $P(\sigma_i|\sigma_i)=P(\sigma_i|E_i)=\gamma P(E_i|\sigma_i)$. If we assume that in fact $\forall i: P(\sigma_i|\sigma_i)=1$, then
+\begin{align}
+\gamma = \frac{n}{1+(r-1)\alpha^{-1}}.
+\end{align}
+For an unbiased quantum 3-design, $\gamma=\frac{n}{d}$.
+\item An extremal probability vector is a valid probability vector which cannot be written as a convex mixture of valid probability vectors (in $\text{col}(P)$). Can we easily characterize the extremal states of the theory directly in terms of $A_{ijk}$? In terms of the eigenstructure of $C[\rho]$? When is the variance bound saturated?
+\item Which state-spaces can support a a maximal simplex with $r$ vertices which lie on its boundary, that is, a SIC? What is the maximal size $d$ of a simplex of perfectly distinguishable states?
+ \end{enumerate}
+\item Let us assume that 
+\begin{align}
+A_{ijk} = 	\eta \Big(\delta_{ij}-\delta_{ik}-\delta_{jk}\ \Big)
+\end{align}
+for some constant $\eta$. This is the case in quantum mechanics. In what sense can we say that this the simplest possible choice? If we do make this choice, we  have for some arbitrary vector $y$,
+\begin{align}
+B[Y]_{ij}&=	\sum_k \Big(\delta_{ij}\delta_{ik}-A_{ijk}\Big)y_k\\
+&=\sum_k \Big(\delta_{ij}\delta_{ik}-\eta \Big[\delta_{ij}-\delta_{ik}-\delta_{jk}\ \Big]\Big)y_k\\
+&=\delta_{ij}y_i-\delta_{ij}\eta \bar{y}+\eta y_i+\eta y_j,
+\end{align}
+where $\bar{y}=\sum_i y_i$. Then
+\begin{align}
+\sum_{ij}x_iB[Y]_{ij}x_j&=\sum_i x_i^2 y_i-n\eta\bar{y}\left[\frac{1}{n}\sum_i x_i^2 -\frac{2}{n}\sum_ix_i\sum_j x_j y_j\right].
+\end{align}
+In particular, for a probabilities $y_i =P(E_i|\rho)$, we have
+\begin{align}
+	\sum_{ij}x_iB[\rho]_{ij}x_j &= \sum_i x_i^2 P(E_i|\rho)-n\eta\left[\frac{1}{n}\sum_i x_i^2 -\frac{2}{n}\sum_ix_i\sum_j x_j P(E_j|\rho)\right],
+\end{align}
+so that, by assumption, a valid probability vector $P(E|\rho)$ must satisfy the lower-bound on its second moment,
+\begin{align}
+\forall x \in \text{col}(P):\langle X^2|\rho\rangle\ge 	n\eta\Big(\langle X^2|\mu)-2\langle X|\mu\rangle\langle X|\rho\rangle\Big),
+\end{align}
+where e.g. $\langle X^2|\rho\rangle=\sum_i x_i^2P(E_i|\rho)$ and $\forall i: P(E_i|\mu)=\frac{1}{n}$.  
+
+For an unbiased quantum 3-design, $\eta=\frac{1}{d+2}\left(\frac{d}{n}\right)$.
+\item Let us now consider $C[Y]=P\Phi B[Y] P \Phi$. On the one hand, $P\Phi = \alpha P + \beta J$. Let us assume that $y\in \text{col}(P)$, so that $\sum_{j}P(E_i|\sigma_j)y_j=\frac{1}{\alpha}\Big[y_i -\beta \bar{y}\Big]$. Then
+\begin{tiny}
+\begin{align*}
+&C[Y]_{il}\\
+&=\sum_{jk}\Bigg[\alpha P(E_i|\sigma_j)+\beta\Bigg] \Bigg[\delta_{jk}y_j-\delta_{jk}\eta \bar{y}+\eta y_j+\eta y_k\Bigg]\Bigg[\alpha P(E_k|\sigma_l)+\beta \Bigg]	\nonumber\\
+&=\sum_{j}\Bigg[\alpha P(E_i|\sigma_j)+\beta\Bigg]\sum_k\Bigg[\alpha P(E_k|\sigma_l)\delta_{jk}y_j-\alpha P(E_k|\sigma_l)\delta_{jk}\eta \bar{y}+\alpha P(E_k|\sigma_l)\eta y_j+\alpha P(E_k|\sigma_l)\eta y_k+\beta\delta_{jk}y_j-\beta\delta_{jk}\eta \bar{y}+\beta\eta y_j+\beta\eta y_k\Bigg]\\
+&=\sum_{j}\Bigg[\alpha P(E_i|\sigma_j)+\beta\Bigg]\Bigg[\alpha P(E_j|\sigma_l)y_j-\alpha P(E_j|\sigma_l)\eta \bar{y}+\alpha \eta y_j+\alpha \eta \sum_k P(E_l|\sigma_k) y_k+\beta y_j-\beta\eta \bar{y}+n\beta\eta y_j+\beta\eta \bar{y}\Bigg]\\
+&=\sum_{j}\Bigg[\alpha P(E_i|\sigma_j)+\beta\Bigg]\Bigg[\alpha P(E_j|\sigma_l)y_j-\alpha P(E_j|\sigma_l)\eta \bar{y}+\alpha \eta y_j+\eta y_l-\beta \eta \bar{y} +\beta y_j-\beta\eta \bar{y}+n\beta\eta y_j+\beta\eta \bar{y}\Bigg]\\
+&=\sum_{j}\Bigg[\alpha P(E_i|\sigma_j)+\beta\Bigg]\Bigg[\alpha P(E_l|\sigma_j)y_j-\alpha \eta \bar{y}P(E_j|\sigma_l) +(\alpha \eta +\beta+n\beta \eta )y_j+\eta y_l -\beta\eta \bar{y}\Bigg]\\
+&=\sum_{j}\Bigg\{\alpha^2 P(E_i|\sigma_j) P(E_l|\sigma_j)y_j-\alpha^2 \eta \bar{y}P(E_i|\sigma_j)P(E_j|\sigma_l) +\alpha (\alpha \eta +\beta+n\beta \eta )P(E_i|\sigma_j)y_j+ \alpha \eta P(E_i|\sigma_j)y_l -\alpha \beta\eta \bar{y}P(E_i|\sigma_j)\\
+& \ \ \ +\alpha \beta P(E_l|\sigma_j)y_j-\alpha \beta \eta \bar{y}P(E_j|\sigma_l) +\beta (\alpha \eta +\beta+n\beta \eta )y_j+ \beta \eta y_l -\beta^2\eta \bar{y}\Bigg\}\\
+&=\alpha^2 \sum_{j}P(E_j|\sigma_i) P(E_j|\sigma_l)y_j-\alpha^2 \eta \bar{y} \sum_j P(E_i|\sigma_j)P(E_j|\sigma_l) +\alpha (\alpha \eta +\beta+n\beta \eta )\sum_jP(E_i|\sigma_j)y_j+ \alpha \eta y_l -\alpha \beta\eta \bar{y}\\
+&\ \ \ +\alpha \beta \sum_jP(E_l|\sigma_j)y_j-\alpha \beta \eta \bar{y} +\beta (\alpha \eta +\beta+n\beta \eta )\bar{y}+ n\beta \eta y_l -n\beta^2\eta \bar{y}\\
+&=\alpha^2 \sum_{j}P(E_j|\sigma_i) P(E_j|\sigma_l)y_j-\alpha \eta \bar{y} \Big(P(E_i|\sigma_l)-\beta\Big) +(\alpha \eta +\beta+n\beta \eta )\Big(y_i-\beta \bar{y}\Big)+ \alpha \eta y_l -\alpha \beta\eta \bar{y}\\
+& \ \ \ +\beta \Big(y_l-\beta \bar{y}\Big)-\alpha \beta \eta \bar{y} +\beta (\alpha \eta +\beta+n\beta \eta )\bar{y}+ n\beta \eta y_l -n\beta^2\eta \bar{y}\\
+&=\alpha^2 \sum_{j}P(E_j|\sigma_i) P(E_j|\sigma_l)y_j-\alpha \eta \bar{y} P(E_i|\sigma_l)+\alpha \eta \bar{y} \beta +(\alpha \eta +\beta+n\beta \eta )y_i-\beta \bar{y}(\alpha \eta +\beta+n\beta \eta )+ \alpha \eta y_l \\
+&\ \ \ -\alpha \beta\eta \bar{y}+ \beta y_l-\beta^2 \bar{y}-\alpha \beta \eta \bar{y} +\beta (\alpha \eta +\beta+n\beta \eta )\bar{y}+ n\beta \eta y_l -n\beta^2\eta \bar{y}\\
+&=\alpha^2 \sum_{j}P(E_j|\sigma_i) P(E_j|\sigma_l)y_j-\alpha \eta \bar{y} P(E_i|\sigma_l) +(\alpha \eta +\beta+n\beta \eta )y_i+ (\alpha \eta+\beta+n\beta \eta) y_l -\beta (\alpha \eta +\beta +n\beta\eta) \bar{y}.
+\end{align*}
+\end{tiny}
+Since $\beta = (1-\alpha)\left(\frac{1}{n}\right)$, let $\kappa = \alpha \eta +\beta+n\beta \eta=\beta+\eta$. We arrive at last at
+\begin{align}
+C[Y]_{ij} &= 	\alpha^2 \sum_{m}P(E_m|\sigma_i) P(E_m|\sigma_j)y_m-\alpha \eta \bar{y} P(E_i|\sigma_j) +\kappa y_i+ \kappa  y_j -\beta \kappa \bar{y},
+\end{align}
+and in particular for a probability vector $y=P(E|\rho)$, we have
+\begin{align}
+C[\rho]_{ij}&=	\alpha^2 \sum_{m}P(E_m|\sigma_i) P(E_m|\sigma_j)P(E_m|\rho)-\alpha \eta  P(E_i|\sigma_j) +\kappa P(E_i|\rho)+ \kappa  P(E_j|\rho) -\beta \kappa.
+\end{align}
+For an unbiased quantum 3-design, $\alpha = (d+1)$, $\beta = -\frac{d}{n}$, $\eta =\frac{1}{d+2}\left(\frac{d}{n}\right)$, and $\chi= \frac{1}{2}\left(\frac{n}{d}\right)\left(\frac{d+2}{d+1}\right)$ so that $\mathcal{L}[\rho]_{ij}=\chi C[\rho]_{ij}$ is the probabilistic representation of taking the Jordan product with $\rho$:
+\begin{align}
+&\mathcal{L}[\rho]_{ij}\\
+&=
+\frac{1}{2}\Bigg\{(d+1)(d+2) \left(\frac{n}{d}\right)\sum_k P(E_k|\sigma_i)P(E_k|\sigma_j)P(E_k|\rho) -  P(E_i|\sigma_l)-P(E_i|\rho)-P(E_j|\rho) -\frac{d}{n}\Bigg\}\nonumber.
+\end{align}
+\item What further symmetries can we impose in order to fix the constants, and on what grounds?
+\begin{enumerate}
+\item 
+ Let $Q(E|\sigma)=\Phi P(E|\sigma)$ and $Q(E|\rho)= \Phi P(E|\rho)$ so that
+\begin{align}
+\Big[\mathcal{L}[\rho]\Phi \Big]_{ij}&=	\chi\Bigg\{\alpha^2 \sum_{m}P(E_m|\sigma_i) Q(E_m|\sigma_j)P(E_m|\rho)-\alpha \eta  Q(E_i|\sigma_j) +\kappa P(E_i|\rho)+ \kappa  Q(E_j|\rho) -\beta \kappa\Bigg\}.
+\end{align}
+Suppose we demand \emph{commutativity}: $\mathcal{L}[\rho]\Phi P(E|\tau)=\mathcal{L}[\tau]\Phi P(E|\rho) $. We have
+\begin{align}
+\mathcal{L}[\rho]\Phi P(E|\tau) &=\chi\Bigg\{\alpha^2\sum_m P(E_m|\sigma_i)P(E_m|\tau)P(E_m|\rho)-\alpha \eta P(E_i|\tau)+\kappa P(E_i|\rho)+\kappa \gamma^{-1}P(\rho|\tau)-\beta \kappa\Bigg\}\\
+\mathcal{L}[\tau]\Phi P(E|\rho) &=\chi\Bigg\{\alpha^2\sum_m P(E_m|\sigma_i)P(E_m|\rho)P(E_m|\tau)-\alpha \eta P(E_i|\rho)+\kappa P(E_i|\tau)+\kappa \gamma^{-1}P(\rho|\tau)-\beta \kappa\Bigg\},
+\end{align}
+from which we conclude that $\eta=-\frac{\beta}{\alpha+1}$.
+\item By Bayes's rule, we have $P(\rho|\sigma)=\gamma P(E|\rho)$. If we assume self-duality,
+\begin{align}
+P(\rho|\rho)&=P(\rho|\sigma)\Phi P(E|\rho)=\gamma P(E|\rho)\Phi P(E|\rho)\\
+&=\gamma \Bigg[\alpha \sum_i P(E_i|\rho)^2+\beta \Bigg].
+\end{align}
+If we assume $P(\rho|\rho)=1$, then
+\begin{align}
+\sum_i P(E_i|\rho)^2 &= \frac{1}{\alpha}\left(\gamma^{-1}	-\beta\right).
+\end{align}
+For an unbiased quantum 3-design, a pure-state probability-assignment satisfies $\sum_i P(E_i|\rho)^2 = \left(\frac{d}{n}\right)\frac{2}{d+1}$.
+\item Let us now consider $\tilde{P}(E|\rho^2)=\mathcal{L}[\rho]\Phi P(E|\rho)$, or
+\begin{align}
+&\tilde{P}(E_i|\rho^2)\\
+	&=\chi \Bigg\{\alpha^2 \sum_m P(E_m|\sigma_i)P(E_m|\rho)^2+(\kappa-\alpha \eta) P(E_i|\rho) + \kappa \gamma^{-1}P(\rho|\rho) - \beta \kappa \Bigg\}.\nonumber
+\end{align}
+If we demand that $P(\rho|\rho)=1$ and moreover that $P(E_i|\rho)=\tilde{P}(E_i|\rho^2)$ (in quantum theory, this is the demand that $\rho=\rho^2$) then
+\begin{align}
+	P(E_i|\rho)&=\left(\frac{1}{\chi^{-1} -\kappa+\alpha \eta}\right)\Bigg[\alpha^2 \sum_m P(E_m|\sigma_i)P(E_m|\rho)^2+  \kappa (\gamma^{-1} - \beta)\Bigg].
+\end{align}
+Summing over $i$ on both sides, we have
+\begin{align}
+\left(\frac{1}{\chi^{-1} -\kappa+\alpha \eta}\right)\Bigg[\alpha^2 \sum_m P(E_m|\rho)^2+  n\kappa (\gamma^{-1} - \beta)\Bigg] = 1,
+\end{align}
+and substituting $\sum_i P(E_i|\rho)^2 = \frac{1}{\alpha}\left(\gamma^{-1}	-\beta\right)$, we find  that $\chi^{-1} -\kappa+\alpha \eta=\alpha(\gamma^{-1}-\beta)+  n\kappa (\gamma^{-1} - \beta)  $,
+which fixes 
+\begin{align}
+\chi = \frac{\gamma (\alpha+1)}{2\alpha}.
+\end{align}
+Now
+\begin{align}
+&\mathcal{L}[Y]_{ij}\\
+&=\frac{1}{2}\gamma \Bigg\{\alpha(\alpha+1)\sum_{m}P(E_m|\sigma_i) P(E_m|\sigma_j)y_m-\left(\frac{\alpha-1}{n}\right)\Big(\bar{y} P(E_i|\sigma_j)+y_i + y_j\Big)-\left(\frac{\alpha-1}{n}\right)^2\bar{y}\Bigg\}.\nonumber
+\end{align}
+\item We can go further using $P(\rho|\rho) =\gamma P(E|\rho)\Phi P(E|\rho)=1$ by substituting in $P(E|\rho)=\tilde{P}(E|\rho^2)$. 
+\begin{align}
+	1&= \gamma \sum_i Q(E_i|\rho)\left(\frac{1}{\chi^{-1} -\kappa+\alpha \eta}\right)\Bigg[\alpha^2 \sum_m P(E_m|\sigma_i)P(E_m|\rho)^2+  \kappa (\gamma^{-1} - \beta)\Bigg]\\
+	&=\left(\frac{\gamma}{\chi^{-1} -\kappa+\alpha \eta}\right)\Bigg[\alpha^2 \sum_m P(E_m|\rho)^3+  \kappa (\gamma^{-1} - \beta)\Bigg],
+\end{align}
+so that
+\begin{align}
+\sum_m P(E_m|\rho)^3 &=\frac{1}{\alpha^2}\left[\left(\frac{\chi^{-1} -\kappa+\alpha \eta}{\gamma}\right)	- \kappa (\gamma^{-1} - \beta)\right]\\
+&=\frac{((\alpha -1) \gamma +n) ((\alpha -1) \gamma +2 n)}{\alpha  (\alpha +1) \gamma ^2
+   n^2}.
+\end{align}
+For an unbiased quantum 3-design,  $\sum_i P(E_i|\rho)^3 =\left(\frac{d}{n}\right)^2\frac{6}{(d+1)(d+2)}$. 
+
+Can we go in reverse and show that if $\sum_i P(E_i|\rho)^2$ and $\sum_i P(E_i|\rho)^3$ equal the required values (and $P(E|\rho)\in \text{col}(P)$), then $P(E_i|\rho)=\tilde{P}(E_i|\rho^2)$? Can we have an independent characterization of the pure states of the theory and thus show that the pure states are completely characterized by these considerations?
+\item  Supposing we can pin down the state-space as an intersection of 2-norm and 3-norm spheres and the privileged subspace $\text{col}(P)$, we could hope to interrogate self-duality by studying $p$-norm cones. H\"older's inequality tells us that for real numbers $p,q\ge 1$ such that $\frac{1}{p}+\frac{1}{q}=1$, we have for $x,y\in \mathbb{R}^n, \mathbb{C}^n$
+\begin{align}
+\left|\sum_{i=1}^n x_i y_i\right| \leq \lVert x \rVert_p \lVert y \rVert_q
+\end{align}
+with equality when $\forall i: |x_i|^p = \lambda |y_i|^q$ for $\lambda \ge 0$. In the case of $p=1, q=\infty$, equality holds if $x,y$ are have only one non-zero component in the same place. This can be used to establish the dual of cone whose base is a $p$-norm sphere. Moreover, the dual of an intersection of cones is the Minkowski sum of their duals: $(C_1 \cap C_2)^* = C_1^* + C_2^*$, and the same goes for an intersection with a subspace. This would be the jumping off place for some analysis.
+
+\item What if we demand that in fact $\mathcal{L}[\rho]$ is a Jordan product matrix?  Recall that the Jordan product is completely characterized by its commutativity and the condition that $\big[L[\rho]	, L[\rho^2\big]=0$. For us,  this means on the one hand, $\mathcal{L}[\rho]\Phi P(E|\tau) =  \mathcal{L}[\tau]\Phi P(E|\rho)$, and on the other hand, $\big[\mathcal{L}[\rho]\Phi, \mathcal{L}[\rho^2]\Phi\big]=0$. We've already explored commutativity. Direct calculation of $\big[L[\rho]	, L[\rho^2\big]=0$ is not particularly illuminating. But let's think instead about structure-coefficients.
+
+A Euclidean Jordan algebra is a vector space $\mathcal{V}$ equipped with an bilinear product $x \circ y$ with a ``compatible'' inner product $\langle x, y\rangle$. The Jordan product $\circ$ satisfies
+\begin{align}
+x \circ y &= y \circ x\\
+x \circ (y \circ x^2)&= (x\circ y)\circ x^2.
+\end{align}
+Let $\{e_i\}$ be a basis for $\mathcal{V}$. We define structure-coefficients $\mathfrak{J}_{ijk}$ to satisfy
+\begin{align}
+e_j \circ e_k = \sum_i \mathfrak{J}_{ijk}e_i	.
+\end{align}
+What symmetries must $\mathfrak{J}_{ijk}$ satisfy? Since $x \circ y = y \circ x$, we have in particular
+\begin{align}
+e_j \circ e_k &= \sum_i \mathfrak{J}_{ijk}e_i	=\sum_i \mathfrak{J}_{ikj}e_i	=e_k \circ e_j.	
+\end{align}
+We conclude $\mathfrak{J}_{ijk}=\mathfrak{J}_{ikj}$. A compatible inner product satisfies $\langle x\circ y, z\rangle=\langle x,y\circ z\rangle$. On the one hand,
+\begin{align}
+\langle e_i \circ e_j, e_k\rangle &= \left\langle \sum_l \mathfrak{J}_{lij}e_l, e_k\right\rangle = \sum_l\mathfrak{J}_{lij}\langle e_l, e_k\rangle=\mathfrak{J}_{kij}.	
+\end{align}
+On the other hand,
+\begin{align}
+\langle e_i , e_j \circ e_k\rangle &= \left\langle e_i,\sum_l \mathfrak{J}_{ljk}e_l\right\rangle = \sum_l\mathfrak{J}_{ljk}\langle e_i, e_l\rangle=\mathfrak{J}_{ijk}.	
+\end{align}
+We conclude that $\mathfrak{J}_{ijk}=\mathfrak{J}_{kij}$. Thus in fact $\mathfrak{J}_{ijk}$ must be totally symmetric. Finally, on the one hand,
+\begin{align}
+e_j \circ e_j &= \sum_i \mathfrak{J}_{ijj}e_i\\
+e_k \circ (e_j \circ e_j)&=\sum_{il}\mathfrak{J}_{ikl}\mathfrak{J}_{ljj}e_i\\
+e_j \circ (e_k \circ (e_j \circ e_j))&=\sum_{ilm}\mathfrak{J}_{ijm}\mathfrak{J}_{mkl}\mathfrak{J}_{ljj} e_i,
+\end{align}
+while on the other hand,
+\begin{align}
+	(e_j \circ e_k) \circ (e_j \circ e_j)&= \sum_{ilm} \mathfrak{J}_{iml}\mathfrak{J}_{mjk}\mathfrak{J}_{ljj}e_i.
+\end{align}
+We conclude that
+\begin{align}
+\forall i, j,k: \sum_{lm}\mathfrak{J}_{ijm}\mathfrak{J}_{mkl}\mathfrak{J}_{ljj} =	\sum_{lm} \mathfrak{J}_{iml}\mathfrak{J}_{mjk}\mathfrak{J}_{ljj}.
+\end{align}
+In our case, in analogy to quantum theory, since
+\begin{align*}
+\mathcal{L}[Y]_{ij} &= 	\chi\Bigg\{\alpha^2 \sum_{m}P(E_m|\sigma_i) P(E_m|\sigma_j)y_m-\alpha \eta \bar{y} P(E_i|\sigma_j) +\kappa y_i+ \kappa  y_j -\beta \kappa \bar{y}\Bigg\},
+\end{align*}
+we ought to take  $\mathfrak{J}_{ijk}=\Big[\mathcal{L}[\sigma_k]\Phi\Big]_{ij}$, that is,
+\begin{align*}
+\mathfrak{J}_{ijk}&= 	\chi\Bigg\{\alpha^2 \sum_{m}P(E_m|\sigma_i) Q(E_m|\sigma_j)Q(E_m|\sigma_k)-\alpha \eta Q(E_i|\sigma_j) +\kappa Q(E_i|\sigma_k)+ \kappa  \big(\alpha Q(E_j|\sigma_k)+\beta\big) -\beta \kappa \Bigg\}.
+\end{align*}
+If $\mathfrak{J}_{ijk}$ satisfies the required identity, then our theory has a Jordan algebraic structure. Writing this out in terms of $P(E_i|\sigma_j)$ is laborious, and not obviously illuminating. I can give expressions on request.
+\item One assumption we could make is \emph{homogeneity}, which is automatically a feature of Euclidean Jordan algebras. Essentially, any full-rank state can be mapped to any other by some invertible map that preserves the structure of the ``cone.'' Quantum mechanically the essential insight is that if $\rho$ is full-rank, then we can contemplate the Kraus update map $\tau \rightarrow \sqrt{\rho^{-1}}\tau \sqrt{\rho^{-1}}$. Clearly if $\tau=\rho$, we end up with the identity. Then if we want to end up at some arbitrary state $\sigma$, we can apply the update map $\tau \rightarrow \sqrt{\sigma} \tau \sqrt{\sigma}$. 
+
+It turns out for an element of a Jordan algebra $Y$, the map $\tau \rightarrow Y\tau Y$  is represented by $P[Y]=2L[Y]^2-L[Y^2]$, where $L[Y]$ takes the Jordan product with $Y$. This is called the \emph{quadratic representation} of $Y$. Quantum mechanically, on the one hand,
+\begin{align}
+\mathcal{L}[Y]_{ij}&=\sum_{l} y_l \sum_k \Phi_{kl}\Re[\tr(E_i\sigma_j\sigma_k)],
+\end{align}
+and on the other hand,
+\begin{align}
+\mathcal{L}[Y^2]_{ij}&=\sum_{ab} y_a y_b\sum_{klrs}  \Phi_{kl}\Phi_{ra}\Phi_{sb}\Re[\tr(E_i\sigma_j\sigma_k)]\Re\big[\tr(E_l\sigma_r\sigma_s)\big],
+\end{align}
+from which one can derive
+\begin{align}
+\mathcal{P}_{xy} &=\sum_{ab} P(E_a|\rho)P(E_b|\rho)\times\\
+&\sum_{jkrs}\Phi_{jk} \Phi_{ra}\Phi_{sb}\Big\{2\Re[\tr(E_x\sigma_j\sigma_r)] \Re[\tr(E_k\sigma_y\sigma_s)]-\Re[\tr(E_x\sigma_y\sigma_j)]\Re\big[\tr(E_k\sigma_r\sigma_s)\big]\Big\}.
+\end{align}
+The expression can be worked out in terms of probabilities, but again without an obvious insight awaiting.
+\end{enumerate}
+
+\item What is the size of a maximal simplex of perfectly distinguishable states: in other words, how can we determine $d$?
+
+Since 
+\begin{align}
+\mathcal{L}[\rho]\Phi P(E|\tau) &=\chi\Bigg\{\alpha^2\sum_m P(E_m|\sigma_i)P(E_m|\tau)P(E_m|\rho)-\alpha \eta P(E_i|\tau)+\kappa P(E_i|\rho)+\kappa \gamma^{-1}P(\rho|\tau)-\beta \kappa\Bigg\},	
+\end{align}
+we have
+\begin{align}
+u^T\mathcal{L}[\rho]\Phi P(E|\tau) &=\chi\Bigg\{\alpha^2\sum_m P(E_m|\tau)P(E_m|\rho)-\alpha \eta +\kappa +n\kappa \gamma^{-1}P(\rho|\tau)-n\beta \kappa\Bigg\}\\	
+&= \chi\Bigg\{\alpha^2\sum_m P(E_m|\tau)P(E_m|\rho)+\beta\alpha +n\kappa \gamma^{-1}P(\rho|\tau)\Bigg\}\\
+&=\chi\Bigg\{\alpha \sum_m P(E_m|\tau)\Big[\alpha P(E_m|\rho)+\beta\Big]+n\kappa \gamma^{-1}P(\rho|\tau)\Bigg\}\\
+&=\chi \Bigg\{\alpha \gamma^{-1}P(\tau |\rho)+n\kappa \gamma^{-1}P(\rho|\tau)\Bigg\}\\
+&=\chi \gamma^{-1}(\alpha +n \kappa)P(\tau|\rho)=P(\tau|\rho).
+\end{align}
+Incidentally, it is worth considering in this context the symmetry $P(\tau|\rho)=P(\rho|\tau)$ which isn't necessarily taken for granted. Assuming this implies
+\begin{align}
+0 &=		\alpha^2\sum_m P(E_m|\tau)P(E_m|\rho)^2-\alpha^2 \sum_m P(E_m|\rho)P(E_m|\tau)^2+\kappa P(\rho|\rho)-\kappa P(\tau|\tau).
+\end{align}
+In any case, we can then consider, for example,
+ \begin{align}
+ \mathcal{L}[\rho]\Phi P(E|\tau)=0.
+ \end{align}
+In other words, we can ask: what does the null-space of $ \mathcal{L}[\rho]$ look like? From $L[\rho]\Phi P(E|\tau)=0$, we find that $P(E|\tau)$ must statisfy
+\begin{align}
+P(E_i|\tau) &= \frac{1}{\alpha \eta}\Bigg\{	\alpha^2\sum_m P(E_m|\sigma_i)P(E_m|\tau)P(E_m|\rho)+\kappa P(E_i|\rho)+\kappa \gamma^{-1}P(\rho|\tau)-\beta \kappa\Bigg\}.
+\end{align}
+What if we further assume $\rho, \tau$ are pure? How many solutions do such equations have?
+
+Finally, in 3-design quantum theory, we have
+\begin{align}
+	\tr(X^2\rho) &= \left(\frac{d}{n}\right)\sum_{ijkl} x_ix_j\Re[\tr(E_i\sigma_j\sigma_k)]\Phi_{kl}P(E_l|\rho)=\left(\frac{d}{n}\right)x^T\mathcal{L}[\rho]x,
+\end{align}
+which implies the existence of an orthonormal basis measurement of $X$. What milage can we get out of that?
+\item What can we say about ``time evolution,'' or more specifically, the continuous symmetries of the pure-states? On the one hand, to the extent that we have defining conditions on pure-states, we can derive conditions for a quasi-stochastic matrix to preserve pure-states. On the other hand, assuming quantum mechanics already, to represent the time derivative in the von Neumann equation, we need a probabilistic representation of the commutator $[A, B]$. This can be derived from the \emph{imaginary} part of the triple products. To what extent can these imaginary parts be nailed down? We have
+\begin{align}
+\tr(E_i [A, B]) &= \sum_{km} \tr(E_k A)\tr(E_m B)\left[\sum_{jl}\Phi_{jk}\Phi_{lm}(2i)\Im\big[\tr(E_i\sigma_j\sigma_l)\big]\right].
+\end{align}
+Moreover,
+\begin{align}
+\tr(E_i\sigma_j \sigma_l) &= \frac{d}{n}\langle \psi_i|\psi_j\rangle\langle \psi_j|\psi_k\rangle\langle \psi_k|\psi_i\rangle=\sqrt{\frac{n}{d}\tr(E_i\sigma_j)\tr(E_j\sigma_k)\tr(E_k\sigma_i)}e^{i(\theta_{ij} + \theta_{jk}+\theta_{ki})},	
+\end{align}
+and since $|\tr(E_i\sigma_j\sigma_k)|^2= \Re\big[\tr(E_i\sigma_j\sigma_k)\big]^2+\Im\big[\tr(E_i\sigma_j\sigma_k)\big]^2$,
+the real-part determines the imaginary-part up to sign:
+\begin{align}
+	\Im\big[\tr(E_i\sigma_j\Pi_k)\big] &= \pm\sqrt{\frac{n}{d}P(E_i|\sigma_j)P(E_j|\sigma_k)P(E_k|\sigma_i)-\Re\big[\tr(E_i\sigma_j\sigma_k)\big]^2}.
+\end{align}
+The choice of signs is not arbitrary since $\Im\big[\tr(E_i\sigma_j\Pi_k)\big]$ must be antisymmetric. Will any appropriate choice of signs work?
+\end{enumerate}
+
+\section{}
+
+Finally, supposing we can prove most of everything we want to prove on the basis of these considerations, there remains the possibility that we end up with perfectly good theories that act quite like quantum mechanics, but the $P(E_i|\sigma_j)$'s just don't correspond to quantum 3-design probabilities. It feels like we're missing some simple, powerful, killer assumption. Could we assume the existence of a SIC? (Can we glue SICs together to form 3-designs? Are there SIC fiducials whose orbit under the Clifford group gives a 3-design?) More generally, is there some way of characterizing 3-designs themselves in QBist terms? In this connection, perhaps it is worth looking back at the literature on shadow estimation, especially Huangjun Zhu's recent papers. There incidentally, the focus is not so much on a lower bound on the variance of an observable (according to the reference device), but on an upper bound. David Gross  has interesting things to say about the symmetries of a 3-design set:
+\begin{theorem}
+Let $\{\psi_i\}_{i=1}^n\subset \mathbb{C}^d$ be a set of unit vectors. Let $L\in \text{End}(\text{Herm}(\mathcal{H}))$ be a linear map on Hermitian operators that permutes the projectors $\{|\psi_i\rangle\langle \psi_i\}_{i=1}^n$.
+\begin{enumerate}
+\item If $\{\psi_i\}$ is a complex-projective 1-design, then $L$ is unital, i.e. $L(I)=I$.
+\item If $\{\psi_i\}$ is a complex-projective 2-design, then $L$ is orthogonal and trace-preserving.
+\item If $\{\psi_i\}$ is a complex-projective 3-design, then $L$ is of the form $L=U \cdot U^\dagger$, where $U$ is either a unitary or antiunitary.
+\end{enumerate}
+\end{theorem}
+\noindent But what does this mean for us?
+
+
+\end{document}
